@@ -1,0 +1,16 @@
+<launch>
+  <param command="$(find xacro)/xacro $(find navbot006_description)/urdf/navbot006.xacro" name="robot_description"/>
+  <node args="-x 3 -y 3 -unpause -param robot_description -urdf -model navbot006" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"/>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find navbot006_multimap_bot)/worlds/meta_house.world"/>
+    <arg name="paused" value="true"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+    
+  </include>
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  
+</launch>

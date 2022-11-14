@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="map_file1" default="$(find navbot006_multimap_bot)/maps/hall.yaml"/>
+  <arg name="map_file2" default="$(find navbot006_multimap_bot)/maps/kitchen.yaml"/>
+  <arg name="map_file3" default="$(find navbot006_multimap_bot)/maps/bathroom.yaml"/>
+  <arg name="map_file4" default="$(find navbot006_multimap_bot)/maps/washroom.yaml"/>
+
+
+  <!-- Run the map1 server -->
+  <node name="map_server1" pkg="map_server" type="map_server" args="$(arg map_file1)" >
+    <param name= "frame_id" value ="map1"/>
+    <remap from="map" to ="map1" />
+  </node>
+
+  <!-- Run the map2 server -->
+  <node name="map_server2" pkg="map_server" type="map_server" args="$(arg map_file2)" >
+    <param name= "frame_id" value ="map2"/>
+    <remap from="map" to ="map2" />
+  </node>
+
+  <!-- Run the map3 server -->
+  <node name="map_server3" pkg="map_server" type="map_server" args="$(arg map_file3)" >
+    <param name= "frame_id" value ="map3"/>
+    <remap from="map" to ="map3" />
+  </node>
+  
+  <!-- Run the map4 server -->
+  <node name="map_server4" pkg="map_server" type="map_server" args="$(arg map_file4)" >
+    <param name= "frame_id" value ="map3"/>
+    <remap from="map" to ="map3" />
+  </node>
+
+  <node name ="mux_map_service" pkg ="topic_tools" type ="mux" args ="/map /map1 /map2 /map3 /map4 mux:=mux_map_service" output = "screen" >
+    <param name ="initial_topic " value= "map4"/>
+
+  </node>
+
+</launch>
